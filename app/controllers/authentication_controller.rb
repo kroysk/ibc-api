@@ -14,7 +14,7 @@ class AuthenticationController < ApplicationController
             refresh_token = JsonWebToken.encode(user_id: @user.id, exp: exp_reresh, refresh: true)
             # Generate Session
             user_agent = request.headers['user-agent']
-            # user_agent = "unknown" if user_agent.nil?
+            user_agent = "unknown" if user_agent.nil?
             UserSession.create(
                 user_id: @user.id, 
                 token_digest: Digest::SHA256.hexdigest(access_token),
@@ -23,21 +23,22 @@ class AuthenticationController < ApplicationController
                 refresh_token_expiration: exp_reresh,
                 device: user_agent
             )
+            @session = {
+                access_token: access_token,
+                exp: exp.to_i,
+                refresh_token: refresh_token,
+                exp_reresh: exp_reresh.to_i,
+            }
             # Render response with separate tokens and expiration times
-            render json: {
-            access_token: access_token,
-            exp: exp.to_i,
-            refresh_token: refresh_token,
-            exp_reresh: exp_reresh.to_i,
-            }, status: :ok
+            render_success @session
         else
-            render json: { error: 'unauthorized' }, status: :unauthorized
+            not_permission
         end
     end
 
     def logout
         @session.destroy
-        render json: { result: 'OK' }, status: :ok
+        render_success 'OK'
     end
 
     def refresh
@@ -47,10 +48,11 @@ class AuthenticationController < ApplicationController
             token_digest: Digest::SHA256.hexdigest(access_token),
             token_expiration: exp,
         )
-        render json: { 
+        refresh = { 
             access_token:  access_token,
             exp: exp
-        }, status: :ok
+        }
+        render_success refresh 
     end
 
     private

@@ -1,12 +1,19 @@
 class ApplicationController < ActionController::API
+    
+    def render_error(data, status = :bad_request)
+        render json: { error: true, result: data }, status: status
+    end
+
+    def render_success(data, status = :ok)
+        render json: { error: false, reuslt: data }, status: status
+    end
+
     def render_not_found
-        render json: { error: "No se encontró la ruta" }, status: :not_found
+        render_error "No se encontró la ruta", :not_found
     end
-    def render_error(message, status = :bad_)
-        render json: { error: message }, status: status
-    end
-    def render_success(data)
-        render json: { reuslt: message }, status: status
+
+    def not_permission
+        render_error "No Autorizado", :unauthorized
     end
     def authorize_request
         header = request.headers['Authorization']
@@ -18,11 +25,13 @@ class ApplicationController < ActionController::API
             if @session.nil?
                 raise ActiveRecord::RecordNotFound, "Token Invalido"
             end
-            @current_user = User.find(@decoded[:user_id]).as_json(except: [:password_digest])
+            # @current_user = User.includes(:roles).find(@decoded[:user_id]).as_json(except: [:password_digest], include: {})
+            @current_user = User.find(@decoded[:user_id])
+          
         rescue ActiveRecord::RecordNotFound => e
-            render json: { errors: e.message }, status: :unauthorized
+            render_error e.message, :unauthorized
         rescue JWT::DecodeError => e
-            render json: { errors: e.message }, status: :unauthorized
+            render_error e.message, :unauthorized
         end
     end
 
@@ -44,15 +53,13 @@ class ApplicationController < ActionController::API
         end
     end
 
-    # def has_permission?(permission = nil)
-    #       # Obtiene los roles del usuario.
-    #     # roles = user.roles.pluck(:name)
-
-    #     # # Busca si el usuario tiene un rol con el permiso.
-    #     # Role.with_permission(permission_name).pluck(:name).any? do |role_name|
-    #     #     roles.include?(role_name)
-    # end
-
-    #  end
-    # end
+    def has_permissions?(permission)
+        return true if @current_user.roles.pluck(:code).include?('superadmin')
+        return true if permission != 'superadmin' && @current_user.roles.pluck(:code).include?('admin')
+        if @current_user.roles.flat_map(&:permissions).pluck(:resource).include?(permission)
+            return true
+        else
+            return false
+        end
+    end
 end

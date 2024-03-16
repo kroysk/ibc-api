@@ -7,6 +7,8 @@ class UsersController < ApplicationController
     # end
 
     def me
-        render json:  @current_user, status: :ok
+        current_user = @current_user.as_json(except: [:password_digest])
+        current_user[:roles] = @current_user.roles.pluck(:code)
+        render_success current_user
     end
 end

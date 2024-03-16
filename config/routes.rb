@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   post '/auth/logout', to: 'authentication#logout'
   post '/auth/refresh', to: 'authentication#refresh'
   get '/me', to: 'users#me'
+  resources :user
   get '/*a', to: 'application#render_not_found'
   post '/*a', to: 'application#render_not_found'
   put '/*a', to: 'application#render_not_found'
