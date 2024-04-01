@@ -3,5 +3,5 @@
 set -o errexit
 
 bundle install
-rails assets:precompile
-rails assets:clean
+bundle exec rails assets:precompile
+bundle exec rails assets:clean
