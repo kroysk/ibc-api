@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::API
-    
+    rescue_from ActionController::ParameterMissing, with: :missing_parameters_error
     def render_error(data, status = :bad_request)
         render json: { error: true, result: data }, status: status
     end
@@ -61,5 +61,10 @@ class ApplicationController < ActionController::API
         else
             return false
         end
+    end
+    private
+
+    def missing_parameters_error(exception)
+        render_error exception.message
     end
 end
