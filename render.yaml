@@ -1,7 +1,7 @@
 databases:
   - name: ibc_api
-    databaseName: ibc_api
-    user: ibc_api
+    databaseName: ibcdb
+    user: ibcdb_user
     plan: free
 
 services:
