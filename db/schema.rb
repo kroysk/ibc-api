@@ -25,7 +25,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_03_17_221854) do
   end
 
   create_table "permissions", force: :cascade do |t|
-    t.string "resource"
+    t.string "resource", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -40,15 +40,15 @@ ActiveRecord::Schema[7.0].define(version: 2024_03_17_221854) do
   end
 
   create_table "roles", force: :cascade do |t|
-    t.string "name"
-    t.string "code"
+    t.string "name", null: false
+    t.string "code", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "user_roles", force: :cascade do |t|
-    t.bigint "user_id"
-    t.bigint "role_id"
+    t.bigint "user_id", null: false
+    t.bigint "role_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["role_id"], name: "index_user_roles_on_role_id"
