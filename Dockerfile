@@ -1,4 +1,4 @@
-FROM ruby:3.0.4
+FROM ruby:3.1.2
 
 WORKDIR /ibc-api
 
