@@ -58,5 +58,5 @@ production:
   pool: 5
   database: zjynfbap_ibc_api
   username: zjynfbap_webadmin
-  password: N0613218l!
+  password: N0613218l@
   host: 50.31.174.149
