@@ -53,6 +53,10 @@ test:
 #
 production:
   <<: *default
-  database: ibc_api_production
-  username: ibc_api
-  password: <%= ENV["IBC_API_DATABASE_PASSWORD"] %>
+  adapter: mysql2
+  encoding: utf8
+  pool: 5
+  database: your_production_database_name
+  username: <%= ENV['PRODUCTION_DATABASE_USERNAME'] %>
+  password: <%= ENV['PRODUCTION_DATABASE_PASSWORD'] %>
+  host: your_database_host
