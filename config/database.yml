@@ -56,7 +56,7 @@ production:
   adapter: mysql2
   encoding: utf8mb4
   pool: 5
-  database: zjynfbap_ibc_api
+  database: myapp_production
   username: zjynfbap_webadmin
   password: N0613218l@
   host: 50.31.174.149
