@@ -53,6 +53,10 @@ test:
 #
 production:
   <<: *default
-  database: ibc_api_production
-  username: ibc_api
-  password: <%= ENV["IBC_API_DATABASE_PASSWORD"] %>
+  adapter: mysql2
+     encoding: utf8mb4
+     pool: 5
+     database: zjynfbap_ibc_api
+     username: zjynfbap_webadmin
+     password: N0613218l!
+     host: 50.31.174.149
