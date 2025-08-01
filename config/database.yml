@@ -14,13 +14,21 @@
 # Configure Using Gemfile
 # gem "pg"
 #
+# default: &default
+#   adapter: postgresql
+#   encoding: unicode
+#   host: db
+#   username: postgres
+#   password: password
+#   pool: 5
 default: &default
-  adapter: postgresql
-  encoding: unicode
-  host: db
-  username: postgres
-  password: password
+  adapter: mysql2
+  encoding: utf8mb4
   pool: 5
+  database: zjynfbap_ibc_api
+  username: zjynfbap_webadmin
+  password: N0613218l@
+  host: 50.31.174.149
 
 development:
   <<: *default
@@ -53,10 +61,3 @@ test:
 #
 production:
   <<: *default
-  adapter: mysql2
-  encoding: utf8mb4
-  pool: 5
-  database: zjynfbap_ibc_api
-  username: zjynfbap_webadmin
-  password: N0613218l@
-  host: 50.31.174.149
