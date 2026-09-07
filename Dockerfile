@@ -1,5 +1,6 @@
 FROM ruby:3.1.2
 
+
 WORKDIR /ibc-api
 
 RUN apt-get update -qq && apt-get install -y nodejs postgresql-client libvips
